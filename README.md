@@ -1,4 +1,5 @@
-# COVID
 
-![image](https://user-images.githubusercontent.com/67131400/118909021-ff976480-b8e7-11eb-9253-20a3d45b2c47.png)
+## COVID-19 Cases and Death Analysis
+
+As second wave raised the cases and death toll in India, it started spilling on to neighboring Nepal. The  biggest spreader event was Kumnbh mela. The charts below shows the relationship between growth in COVID cases in India and Nepal,
 

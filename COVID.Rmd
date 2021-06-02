@@ -52,7 +52,7 @@ d <- df %>% filter(location %in% c("India","Nepal")) %>%
   labs(x="",
        y="Total Cases",
        title="COVID Cases in Nepal and India",
-       caption="Source: John Hopkins University \n Note: Data is from Jan 25, 2020 through May, 2021")+
+       caption="Source: John Hopkins University \n Note: Data is from Jan 25, 2020 through June 2021")+
       theme(axis.text.x = element_text(angle=90,size = 10),
           axis.text.y = element_text(size=10),
           axis.title.x = element_text(size = 10),
@@ -73,7 +73,7 @@ ggsave("COVID.png")
 
   
  
-ggplotly(d)
+#ggplotly(d)
 
 ```
 
@@ -90,7 +90,7 @@ d <- df %>% filter(location %in% c("India","United States", "Brazil")) %>%
   labs(x="",
        y="Total Cases",
        title="COVID Cases",
-       caption="Source: John Hopkins University \n Note: Data is from Jan 25, 2020 through April 27, 2021")+
+       caption="Source: John Hopkins University \n Note: Data is from Jan 25, 2020 through June, 2021")+
       theme(axis.text.x = element_text(angle=90,size = 10),
           axis.text.y = element_text(size=10),
           axis.title.x = element_text(size = 10),
@@ -106,12 +106,13 @@ d <- df %>% filter(location %in% c("India","United States", "Brazil")) %>%
   
    scale_x_date(date_breaks = "months" , date_labels = "%b-%y")
 
+d
 #ggsave("COVID.png")
   
 
   
  
-ggplotly(d)
+#ggplotly(d)
 
 ```
 
@@ -130,9 +131,11 @@ dff <- df %>%
   ggplot(aes(dates,Cases))+
   geom_bar(stat="identity",fill="red")+
   scale_y_continuous(label=comma)+
+  labs(title = "Monthly COVID Cases in India")+
   scale_x_date(date_breaks = "months" , date_labels = "%b-%y")+
   theme(axis.text.x = element_text(angle=90))
-ggplotly(dff)
+  
+dff
 
 
 ```
@@ -143,16 +146,17 @@ df$Year<-year(df$date)
 df$dates <- paste(df$months,df$Year,"1", sep="-")
 df$dates <- myd(df$dates)
 
-dff <- df %>% 
+nepal.death <- df %>% 
   filter(location %in% c("Nepal")) %>% 
   group_by(dates,location) %>% 
   summarise(Deaths=sum(new_deaths)) %>% 
   ggplot(aes(dates,Deaths))+
   geom_bar(stat="identity",fill="red")+
   scale_y_continuous(label=comma)+
+  labs(title = "Monthly COVID Death in Nepal")+
   scale_x_date(date_breaks = "months" , date_labels = "%b-%y")+
   theme(axis.text.x = element_text(angle=90))
-ggplotly(dff)
+nepal.death
 
 
 ```
@@ -163,16 +167,17 @@ df$Year<-year(df$date)
 df$dates <- paste(df$months,df$Year,"1", sep="-")
 df$dates <- myd(df$dates)
 
-dff <- df %>% 
+nepal.cases<- df %>% 
   filter(location %in% c("Nepal")) %>% 
   group_by(dates,location) %>% 
   summarise(Cases=sum(new_cases)) %>% 
   ggplot(aes(dates,Cases))+
   geom_bar(stat="identity",fill="red")+
   scale_y_continuous(label=comma)+
+    labs(title = "Monthly COVID Cases in Nepal")+
   scale_x_date(date_breaks = "months" , date_labels = "%b-%y")+
   theme(axis.text.x = element_text(angle=90))
-ggplotly(dff)
+nepal.cases
 
 
 ```
@@ -180,7 +185,7 @@ ggplotly(dff)
 ```{r}
 
 
-d <- df %>% filter(location %in% c("Nepal","Vietnam","Malaysia","Indonesia","Singapore","Thailand","Bangladesh","Pakistan","Cambodia")) %>%
+cases <- df %>% filter(location %in% c("Nepal","Vietnam","Malaysia","Indonesia","Singapore","Thailand","Bangladesh","Pakistan","Cambodia")) %>%
   group_by(location,date) %>% 
   ggplot(aes(x=date, color=location))+
   geom_line(aes(y=total_cases), lwd=1)+
@@ -190,8 +195,8 @@ d <- df %>% filter(location %in% c("Nepal","Vietnam","Malaysia","Indonesia","Sin
   #scale_y_continuous(trans ="log10",breaks  =c(0,10,100,1000,10000,100000,1000000,10000000,100000000),label=comma)+
   labs(x="",
        y="Total Cases",
-       title="COVID Cases in Nepal and India",
-       caption="Source: John Hopkins University \n Note: Data is from Jan 25, 2020 through April 27, 2021")+
+       title="COVID Cases",
+       caption="Source: John Hopkins University \n Note: Data is from Jan 25, 2020 through June, 2021")+
       theme(axis.text.x = element_text(angle=90,size = 10),
           axis.text.y = element_text(size=10),
           axis.title.x = element_text(size = 10),
@@ -206,20 +211,20 @@ d <- df %>% filter(location %in% c("Nepal","Vietnam","Malaysia","Indonesia","Sin
       legend.title = element_blank())+
   
    scale_x_date(date_breaks = "months" , date_labels = "%b-%y")
-
+cases
 #ggsave("COVID.png")
   
 
   
  
-ggplotly(d)
+#ggplotly(d)
 
 ```
 
 ```{r}
 
 
-d <- df %>% filter(location %in% c("Nepal","Vietnam","Malaysia","Indonesia","Singapore","Thailand","Bangladesh","Pakistan","Cambodia")) %>%
+deaths <- df %>% filter(location %in% c("Nepal","Vietnam","Malaysia","Indonesia","Singapore","Thailand","Bangladesh","Pakistan","Cambodia")) %>%
   group_by(location,date) %>% 
   ggplot(aes(x=date, color=location))+
   geom_line(aes(y=total_deaths), lwd=1)+
@@ -228,7 +233,7 @@ d <- df %>% filter(location %in% c("Nepal","Vietnam","Malaysia","Indonesia","Sin
   #scale_y_continuous(trans ="log10",breaks  =c(0,10,100,1000,10000,100000,1000000,10000000,100000000),label=comma)+
   labs(x="",
        y="Total Cases",
-       title="COVID Cases in Nepal and India",
+       title="COVID Deaths",
        caption="Source: John Hopkins University \n Note: Data is from Jan 25, 2020 through April 27, 2021")+
       theme(axis.text.x = element_text(angle=90,size = 10),
           axis.text.y = element_text(size=10),
@@ -244,111 +249,23 @@ d <- df %>% filter(location %in% c("Nepal","Vietnam","Malaysia","Indonesia","Sin
       legend.title = element_blank())+
   
    scale_x_date(date_breaks = "months" , date_labels = "%b-%y")
-
+deaths
 #ggsave("COVID.png")
   
 
   
  
-ggplotly(d)
+#ggplotly(d)
 
 ```
 
-```{r}
-
-
-d <- df %>% filter(location %in% c("India","United States", "Brazil","Russia")) %>%
-  group_by(location,date) %>% 
-  ggplot(aes(x=date, color=location))+
-  geom_line(aes(y=total_deaths), lwd=1)+
-  #geom_line(aes(y=new_deaths),linetype="dotted", lwd=1)+
-  #scale_y_continuous(label=comma)+
-  scale_y_log10(label=comma)+
-  #scale_y_continuous(trans ="log10",breaks  =c(0,10,100,1000,10000,100000,1000000,10000000,100000000),label=comma)+
-  labs(x="",
-       y="Total Cases",
-       title="COVID Cases in Nepal and India",
-       caption="Source: John Hopkins University \n Note: Data is from Jan 25, 2020 through April 27, 2021")+
-      theme(axis.text.x = element_text(angle=90,size = 10),
-          axis.text.y = element_text(size=10),
-          axis.title.x = element_text(size = 10),
-        axis.ticks.x=element_blank(),
-       plot.background=element_rect(fill="white"),
-       panel.background=element_rect(fill="white"),
-      #panel.grid.major.y = element_blank(),
-      panel.grid.major.x = element_blank(),
-      #panel.grid.minor.y = element_blank(),
-       panel.grid.minor.x = element_blank(),
-       legend.position = "right",
-      legend.title = element_blank())+
-  
-   scale_x_date(date_breaks = "months" , date_labels = "%b-%y")
-
-#ggsave("COVID.png")
-  
-
-  
- 
-ggplotly(d)
-
-```
-
-```{r}
-g <- df %>% filter(location%in%c("Nepal", "India")) %>% 
-  group_by(location,date) %>% 
-ggplot(aes(x=date,color=location ))+
-  geom_line(aes(y=Death_Moving_Average),lwd=1)+
-  #scale_y_continuous(labels=comma)+
-  #geom_line(aes(y=Death_Moving_Average), lwd=1)+
-  #scale_y_continuous(trans="log10",breaks=c(1,10,100,1000,10000,100000,1000000),labels = comma)+
- 
-  scale_x_date(date_breaks = "months" , date_labels = "%b-%y")+
-
-  theme(axis.text.x = element_text(angle=90),
-        legend.title = element_blank())
-  
-ggplotly(g)
-```
-
-```{r}
-
-h<- df %>% filter(location=="India") %>% 
-  ggplot(aes(x=date))+
-  
-  #geom_line(aes(y=Case_Moving_Average), lwd=1)+
-  scale_y_continuous(labels=comma)+
-  geom_area(aes(y=Death_Moving_Average), lwd=1)+
-  #scale_y_continuous(trans="log10",breaks=c(1,10,100,1000,10000,100000,1000000),labels = comma)+
-  scale_x_date(date_breaks = "months" , date_labels = "%b-%y")+
-
-  theme(axis.text.x = element_text(angle=90),
-        legend.title = element_blank())
-  
-ggplotly(h)
-```
-
-
-```{r}
-
-
-ef <-df %>% 
-  filter(location=="India") %>% 
-  ggplot()+
-  geom_col(aes(x=date,y=new_deaths),color="black",fill="blue")+
-  geom_line(aes(x=date,y=Death_Moving_Average), lwd=1, color="red")+
-  scale_y_continuous(sec.axis = sec_axis(~./1, name = "Moving Average deaths"))+
-  scale_x_date(date_breaks = "months" , date_labels = "%b-%y")+
-  theme(axis.text.x = element_text(angle=90),
-        legend.title = element_blank())
-ggplotly(ef)
-```
 
 
 ```{r}
 
 
 
-eg <- df %>% 
+casesMA <- df %>% 
   filter(location=="Nepal") %>% 
   ggplot()+
   geom_col(aes(x=date,y=new_cases),color="black",fill="blue")+
@@ -372,7 +289,7 @@ eg <- df %>%
           axis.title.x = element_text(size = 10),
         axis.ticks.x=element_blank(),
         plot.caption = element_text(face="bold.italic"))
- 
+ casesMA
 ggsave("eg.png")
 ```
 
@@ -380,7 +297,7 @@ ggsave("eg.png")
 
 
 
-ef <- df %>% 
+deathMA <- df %>% 
   filter(location=="Nepal") %>% 
   ggplot()+
   geom_col(aes(x=date,y=new_deaths),color="black",fill="blue")+
@@ -390,7 +307,7 @@ ef <- df %>%
   labs(y="Death",
        x="",
        title = "Nepal COVID Death Rate",
-       subtitle = "Daily deaths and 7-day average",
+       subtitle = "Daily Deaths and 7-day average",
        caption = "John Hopkins University  \n black bars are new daily death rate and red line is 7-day moving average")+
   
   scale_x_date(date_breaks = "month" , date_labels = "%b-%y")+
@@ -404,111 +321,11 @@ ef <- df %>%
           axis.title.x = element_text(size = 10),
         axis.ticks.x=element_blank(),
         plot.caption = element_text(face="bold.italic"))
- 
+ deathMA
 ggsave("ef.png")
-ggplotly(ef)
-```
-
-```{r}
-nepal_cases<- df %>% filter(location=="Nepal") %>% 
-ggplot(aes(x=date, y=new_cases))+
-  geom_line(lwd=1)+
-  #scale_y_continuous(labels=comma)+
-  #geom_line(aes(y=Death_Moving_Average), lwd=1)+
-  #scale_y_continuous(trans="log10",breaks=c(1,10,100,1000,10000,100000,1000000),labels = comma)+
-  scale_x_date(date_breaks = "months" , date_labels = "%b-%y")+
-
-  theme(axis.text.x = element_text(angle=90),
-        legend.title = element_blank())
-  
-ggplotly(nepal_cases)
-
+#ggplotly(ef)
 ```
 
 
-```{r}
-nepal_death<- df %>% filter(location=="Nepal") %>% 
-ggplot(aes(x=date, y=new_deaths))+
-  geom_line(lwd=1, color="red")+
-  #scale_y_continuous(labels=comma)+
-  #geom_line(aes(y=Death_Moving_Average), lwd=1)+
-  #scale_y_continuous(trans="log10",breaks=c(1,10,100,1000,10000,100000,1000000),labels = comma)+
-  scale_x_date(date_breaks = "months" , date_labels = "%b-%y")+
-  labs(title="Daily Deaths",
-       x="",
-      y="" )+
 
-  theme(axis.text.x = element_text(angle=90, size = 10),
-        axis.text.y = element_text(size=10, color="red"),
-        
-        legend.title = element_blank())
-  
-ggplotly(nepal_death)
-
-```
-```{r}
-nepal_death<- df %>% filter(location=="Nepal") %>% 
-ggplot(aes(x=date, y=new_deaths))+
-  geom_bar(stat = "identity")+
-  #scale_y_continuous(labels=comma)+
-  #geom_line(aes(y=Death_Moving_Average), lwd=1)+
-  #scale_y_continuous(trans="log10",breaks=c(1,10,100,1000,10000,100000,1000000),labels = comma)+
-  scale_x_date(date_breaks = "months" , date_labels = "%b-%y")+
-
-  theme(axis.text.x = element_text(angle=90),
-        legend.title = element_blank())
-  
-ggplotly(nepal_death)
-
-```
-
-```{r}
-nepal_death_total<- df %>% filter(location=="Nepal") %>% 
-ggplot(aes(x=date, y=total_deaths))+
-  geom_bar(stat = "identity", color="purple")+
-  #scale_y_continuous(labels=comma)+
-  #geom_line(aes(y=Death_Moving_Average), lwd=1)+
-  #scale_y_continuous(trans="log10",breaks=c(1,10,100,1000,10000,100000,1000000),labels = comma)+
-  scale_x_date(date_breaks = "months" , date_labels = "%b-%y")+
-
-  theme(axis.text.x = element_text(angle=90),
-        legend.title = element_blank())
-  
-ggplotly(nepal_death_total)
-
-```
-
-```{r}
-nepal_cases_total<- df %>% filter(location=="Nepal") %>% 
-ggplot(aes(x=date, y=total_cases))+
-  geom_bar(stat = "identity", fill="red")+
-  scale_y_continuous(labels=comma)+
-  #geom_line(aes(y=Death_Moving_Average), lwd=1)+
-  #scale_y_continuous(trans="log10",breaks=c(1,10,100,1000,10000,100000,1000000),labels = comma)+
-  scale_x_date(date_breaks = "months" , date_labels = "%b-%y")+
-
-  theme(axis.text.x = element_text(angle=90),
-        legend.title = element_blank())
-  
-ggplotly(nepal_cases_total)
-
-```
-
-```{r}
-df %>% filter(location=="Nepal") %>% 
-hchart("column", hcaes(date,total_cases))
-  
-```
-
-```{r}
-df %>% filter(location=="Nepal") %>% 
-  ggplot(aes(new_cases))+
-  geom_density()
-```
-
-```{r}
-df %>% 
-  filter(location == "Nepal") %>% 
-  mutate(Death_Percentage_Change=(total_deaths/lead(total_deaths)))
-```
 
